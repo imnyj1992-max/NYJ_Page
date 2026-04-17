@@ -8,21 +8,24 @@ on:
 permissions:
   contents: write
   pages: write
-
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Replace placeholder in index.html
+        env:
+          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
         run: |
-          sed -i "s/PLACEHOLDER_HASH/${{ secrets.ADMIN_PASSWORD_HASH }}/" index.html
+          sed -i "s|PLACEHOLDER_HASH|$ADMIN_PASSWORD_HASH|g" index.html
+          cat index.html | grep "storedHash" || echo "Hash replacement may have failed"
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
