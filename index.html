@@ -558,46 +558,32 @@ function openPasswordModal() {
   );
   setTimeout(()=>document.getElementById('pwInput')?.focus(),100);
 }
-async function checkPw() {
+function checkPw() {
   const v = document.getElementById('pwInput')?.value;
-  if (!v) {
-    const e = document.getElementById('pwErr');
-    if(e) {
-      e.textContent = '비밀번호를 입력해주세요.';
-      e.style.display = 'block';
-      setTimeout(() => e.style.display = 'none', 2000);
-    }
-    return;
+  const storedHash = 'PLACEHOLDER_HASH'; // 빌드 시 자동 치환됨
+  
+  // SHA256 해시 함수
+  async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
-
-  try {
-    const response = await fetch('/api/verify-password', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: v })
-    });
-
-    if (response.ok) {
+  
+  sha256(v).then(inputHash => {
+    if (inputHash === storedHash) {
       admin = true;
       closeModal();
       applyAdminUI();
     } else {
       const e = document.getElementById('pwErr');
       if(e) {
-        e.textContent = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3';
+        e.textContent = '비밀번호가 올바르지 않습니다.';
         e.style.display = 'block';
         setTimeout(() => e.style.display = 'none', 2000);
       }
     }
-  } catch (error) {
-    console.error('Password verification failed:', error);
-    const e = document.getElementById('pwErr');
-    if(e) {
-      e.textContent = '인증 중 오류가 발생했습니다.';
-      e.style.display = 'block';
-      setTimeout(() => e.style.display = 'none', 3000);
-    }
-  }
+  });
 }
 function logoutAdmin() {
   admin=false; applyAdminUI();
