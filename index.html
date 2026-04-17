@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>남영주 | Youngju Nam</title>
+<style>
+:root{--bg:#0a0e1a;--bg2:#0f1525;--bg3:#151d35;--accent:#4f9cf9;--accent2:#7eb8ff;--gold:#f0c060;--text:#e8edf5;--muted:#7a8aaa;--card:#131a2e;--border:#1e2d50;--red:#f97b7b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI','Apple SD Gothic Neo',sans-serif;line-height:1.7;min-height:100vh;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:.9rem 2.5rem;background:rgba(10,14,26,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+.nav-logo{font-size:1rem;font-weight:800;color:var(--accent);letter-spacing:2px;cursor:pointer;}
+.nav-links{display:flex;gap:.3rem;align-items:center;}
+.nav-btn{background:none;border:none;color:var(--muted);font-size:.85rem;padding:.45rem 1rem;border-radius:6px;cursor:pointer;transition:all .2s;}
+.nav-btn:hover{color:var(--text);background:rgba(255,255,255,.05);}
+.nav-btn.active{color:var(--accent);background:rgba(79,156,249,.1);}
+.lock-btn{background:none;border:none;color:var(--muted);font-size:1rem;padding:.4rem .7rem;border-radius:6px;cursor:pointer;transition:all .2s;margin-left:.5rem;}
+.lock-btn:hover{color:var(--text);}
+.admin-badge{display:none;background:rgba(240,192,96,.15);color:var(--gold);border:1px solid rgba(240,192,96,.3);border-radius:5px;padding:.2rem .7rem;font-size:.73rem;font-weight:700;letter-spacing:.5px;}
+
+/* PAGES */
+.page{display:none;min-height:100vh;padding-top:62px;animation:fadeIn .35s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* SHARED */
+.container{max-width:1050px;margin:0 auto;padding:3.5rem 2rem;}
+.sec-label{color:var(--accent);font-size:.75rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:.6rem;}
+.sec-title{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;background:linear-gradient(135deg,#fff,var(--muted));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.4rem;}
+.sec-divider{width:44px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--accent),transparent);margin-bottom:2.5rem;}
+.btn{display:inline-block;padding:.65rem 1.5rem;border-radius:8px;text-decoration:none;font-size:.88rem;font-weight:600;transition:all .25s;cursor:pointer;border:none;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(79,156,249,.35);}
+.btn-outline{border:1px solid var(--border);color:var(--muted);background:transparent;}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ADMIN CONTROLS */
+.admin-toolbar{display:none;background:rgba(240,192,96,.07);border:1px solid rgba(240,192,96,.2);border-radius:10px;padding:.7rem 1.2rem;margin-bottom:1.5rem;display:none;align-items:center;gap:.8rem;flex-wrap:wrap;}
+.admin-toolbar.show{display:flex;}
+.adm-btn{background:rgba(240,192,96,.12);color:var(--gold);border:1px solid rgba(240,192,96,.25);border-radius:6px;padding:.35rem .9rem;font-size:.8rem;cursor:pointer;transition:all .2s;}
+.adm-btn:hover{background:rgba(240,192,96,.22);}
+.adm-btn.danger{background:rgba(249,123,123,.1);color:var(--red);border-color:rgba(249,123,123,.25);}
+.adm-btn.danger:hover{background:rgba(249,123,123,.2);}
+.adm-edit{display:none;gap:.35rem;}
+.adm-edit.show{display:flex;}
+.adm-icon{background:none;border:none;cursor:pointer;font-size:.85rem;opacity:.5;transition:opacity .2s;padding:.1rem .3rem;}
+.adm-icon:hover{opacity:1;}
+
+/* HOME */
+#home{background:radial-gradient(ellipse at 60% 40%,#0d2a5a 0%,var(--bg) 68%);}
+.home-inner{max-width:1050px;margin:0 auto;padding:0 2rem;min-height:calc(100vh - 62px);display:flex;align-items:center;gap:4rem;}
+.home-text{flex:1;}
+.hero-tag{display:inline-block;background:rgba(79,156,249,.1);color:var(--accent);border:1px solid rgba(79,156,249,.3);border-radius:20px;padding:.28rem .95rem;font-size:.75rem;letter-spacing:1px;margin-bottom:1.4rem;text-transform:uppercase;}
+.hero-name{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;line-height:1.1;background:linear-gradient(135deg,#fff 40%,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.3rem;}
+.hero-name-en{font-size:1.1rem;color:var(--muted);margin-bottom:1rem;}
+.hero-pos{font-size:1rem;color:var(--text);margin-bottom:1.3rem;}.hero-pos span{color:var(--accent);font-weight:700;}
+.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1.8rem;}
+.home-card{flex:0 0 320px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:2rem;box-shadow:0 20px 50px rgba(0,0,0,.4);}
+.hc-label{color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;}
+.rtag{display:inline-block;background:rgba(79,156,249,.08);border:1px solid rgba(79,156,249,.18);border-radius:6px;padding:.28rem .7rem;font-size:.75rem;color:var(--accent2);margin:.22rem;}
+.lab-box{margin-top:1.4rem;padding:.9rem 1.1rem;background:linear-gradient(135deg,rgba(79,156,249,.1),rgba(126,184,255,.04));border:1px solid rgba(79,156,249,.22);border-radius:10px;}
+.lab-name{color:var(--accent);font-weight:700;font-size:.92rem;}
+.lab-sub{color:var(--muted);font-size:.77rem;margin-top:.15rem;}
+
+/* ABOUT */
+#about{background:var(--bg2);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+.about-text p{color:var(--muted);font-size:.95rem;margin-bottom:.9rem;}
+.about-text .hl{color:var(--text);font-size:1.02rem;line-height:1.85;}
+.info-list{display:grid;gap:.9rem;}
+.icard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.4rem;display:flex;align-items:center;gap:1rem;transition:all .2s;position:relative;}
+.icard:hover{border-color:var(--accent);}
+.icard-icon{font-size:1.3rem;flex-shrink:0;}
+.icard-label{color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;}
+.icard-val{color:var(--text);font-size:.88rem;font-weight:500;}
+.icard-val a{color:var(--accent);text-decoration:none;}
+.icard-actions{position:absolute;right:.8rem;top:50%;transform:translateY(-50%);}
+
+/* CAREER */
+#career{background:var(--bg);}
+.timeline{position:relative;padding-left:2.2rem;max-width:700px;}
+.timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:linear-gradient(180deg,var(--accent),transparent);}
+.tl-item{position:relative;margin-bottom:2.2rem;}
+.tl-dot{position:absolute;left:-2.2rem;top:5px;width:13px;height:13px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);box-shadow:0 0 10px rgba(79,156,249,.5);}
+.tl-dot.g{background:var(--gold);box-shadow:0 0 10px rgba(240,192,96,.5);}
+.tl-period{display:inline-block;background:rgba(79,156,249,.1);color:var(--accent);border:1px solid rgba(79,156,249,.22);border-radius:4px;padding:.12rem .65rem;font-size:.75rem;font-weight:700;margin-bottom:.4rem;}
+.tl-period.gp{background:rgba(240,192,96,.1);color:var(--gold);border-color:rgba(240,192,96,.22);}
+.tl-title{font-size:.98rem;font-weight:700;color:var(--text);}
+.tl-sub{font-size:.85rem;color:var(--muted);}
+.tl-item-actions{display:inline-flex;gap:.3rem;margin-left:.5rem;vertical-align:middle;}
+
+/* RESEARCH */
+#research{background:var(--bg2);}
+.rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.3rem;}
+.rcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.6rem;transition:all .3s;position:relative;overflow:hidden;}
+.rcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.rcard:hover{border-color:rgba(79,156,249,.4);transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.3);}
+.rcard:hover::before{transform:scaleX(1);}
+.rc-ico{font-size:1.7rem;margin-bottom:.7rem;}
+.rc-title{font-size:.97rem;font-weight:700;color:var(--text);margin-bottom:.7rem;}
+.rc-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+.rc-tag{background:rgba(79,156,249,.07);color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:.18rem .58rem;font-size:.73rem;}
+.rcard-actions{position:absolute;top:.8rem;right:.8rem;}
+
+/* PUBLICATIONS */
+#pubs{background:var(--bg);}
+.pub-controls{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem;}
+.filt-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:.38rem .9rem;font-size:.8rem;cursor:pointer;transition:all .2s;}
+.filt-btn:hover,.filt-btn.on{background:rgba(79,156,249,.12);border-color:var(--accent);color:var(--accent);}
+.year-group{margin-bottom:2rem;}
+.year-heading{font-size:1rem;font-weight:800;color:var(--gold);margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);}
+.paper-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.3rem;margin-bottom:.7rem;transition:border-color .2s;position:relative;}
+.paper-item:hover{border-color:rgba(79,156,249,.35);}
+.paper-item.first-author::after{content:'1저자';position:absolute;top:.7rem;right:.9rem;background:rgba(79,156,249,.15);color:var(--accent);border:1px solid rgba(79,156,249,.3);border-radius:4px;padding:.1rem .5rem;font-size:.7rem;font-weight:700;}
+.paper-item.corr-author::after{content:'교신저자';position:absolute;top:.7rem;right:.9rem;background:rgba(240,192,96,.12);color:var(--gold);border:1px solid rgba(240,192,96,.28);border-radius:4px;padding:.1rem .5rem;font-size:.7rem;font-weight:700;}
+.paper-item.fa-ca::after{content:'1저자·교신';position:absolute;top:.7rem;right:.9rem;background:rgba(79,156,249,.12);color:var(--accent2);border:1px solid rgba(79,156,249,.3);border-radius:4px;padding:.1rem .5rem;font-size:.7rem;font-weight:700;}
+.paper-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.35rem;padding-right:5rem;}
+.paper-authors{font-size:.8rem;color:var(--muted);margin-bottom:.25rem;}
+.paper-authors .me{color:var(--accent2);font-weight:600;}
+.paper-venue{font-size:.78rem;color:var(--accent);font-weight:500;}
+.badge{display:inline-block;border-radius:4px;padding:.1rem .5rem;font-size:.7rem;font-weight:700;margin-left:.4rem;}
+.badge-j{background:rgba(79,156,249,.12);color:var(--accent);}
+.badge-c{background:rgba(240,192,96,.12);color:var(--gold);}
+.pub-stats{display:flex;gap:1.2rem;margin-bottom:1.8rem;flex-wrap:wrap;}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.9rem 1.5rem;text-align:center;}
+.stat-num{font-size:1.6rem;font-weight:900;color:var(--accent);}
+.stat-lbl{font-size:.75rem;color:var(--muted);}
+.paper-actions{position:absolute;bottom:.7rem;right:.8rem;display:none;gap:.3rem;}
+.paper-actions.show{display:flex;}
+
+/* CONTACT */
+#contact{background:var(--bg2);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.contact-items{display:grid;gap:.9rem;}
+.ci{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.4rem;transition:all .2s;position:relative;}
+.ci:hover{border-color:var(--accent);}
+.ci-ico{font-size:1.25rem;flex-shrink:0;}
+.ci-lbl{color:var(--muted);font-size:.72rem;text-transform:uppercase;}
+.ci-val{color:var(--text);font-size:.88rem;}
+.ci-val a{color:var(--accent);text-decoration:none;}
+.ci-actions{position:absolute;right:.8rem;top:50%;transform:translateY(-50%);}
+.calendly-card{background:linear-gradient(135deg,rgba(79,156,249,.12),rgba(126,184,255,.04));border:1px solid rgba(79,156,249,.28);border-radius:18px;padding:2.5rem;text-align:center;}
+.calendly-card h3{font-size:1.2rem;margin-bottom:.5rem;}
+.calendly-card p{color:var(--muted);font-size:.88rem;margin-bottom:1.8rem;line-height:1.7;}
+.btn-cal{display:inline-block;background:linear-gradient(135deg,var(--accent),#3a7fd5);color:#fff;padding:.85rem 1.9rem;border-radius:10px;text-decoration:none;font-weight:700;font-size:.92rem;transition:all .25s;box-shadow:0 8px 22px rgba(79,156,249,.3);}
+.btn-cal:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(79,156,249,.45);}
+
+footer{background:var(--bg);border-top:1px solid var(--border);text-align:center;padding:1.6rem;color:var(--muted);font-size:.82rem;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;width:90%;max-width:540px;max-height:85vh;overflow-y:auto;animation:fadeIn .2s ease;}
+.modal h3{font-size:1.1rem;font-weight:700;margin-bottom:1.5rem;color:var(--text);}
+.form-row{margin-bottom:1.1rem;}
+.form-row label{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem;}
+.form-row input,.form-row textarea,.form-row select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.65rem .9rem;color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s;font-family:inherit;}
+.form-row input:focus,.form-row textarea:focus,.form-row select:focus{border-color:var(--accent);}
+.form-row textarea{resize:vertical;min-height:80px;}
+.form-row select option{background:var(--bg2);}
+.modal-btns{display:flex;gap:.8rem;justify-content:flex-end;margin-top:1.5rem;flex-wrap:wrap;}
+.modal-btns .btn{padding:.55rem 1.2rem;font-size:.85rem;}
+.btn-save{background:var(--accent);color:#fff;border:none;}
+.btn-cancel{background:var(--card);color:var(--muted);border:1px solid var(--border);}
+.btn-del{background:rgba(249,123,123,.1);color:var(--red);border:1px solid rgba(249,123,123,.25);}
+.pw-input{text-align:center;font-size:1.5rem;letter-spacing:8px;padding:.8rem;}
+.pw-error{color:var(--red);font-size:.82rem;text-align:center;margin-top:.5rem;display:none;}
+.checkbox-row{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.checkbox-row label{display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.85rem;cursor:pointer;}
+.checkbox-row input[type=checkbox]{width:auto;accent-color:var(--accent);}
+
+@media(max-width:720px){
+.home-inner{flex-direction:column;padding-top:2rem;}.home-card{display:none;}
+.about-grid,.contact-grid{grid-template-columns:1fr;}
+.nav-btn{font-size:.75rem;padding:.4rem .65rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="goPage('home')">NYJ</div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="goPage('home')">Home</button>
+    <button class="nav-btn" onclick="goPage('about')">소개</button>
+    <button class="nav-btn" onclick="goPage('career')">경력</button>
+    <button class="nav-btn" onclick="goPage('research')">연구</button>
+    <button class="nav-btn" onclick="goPage('pubs')">논문</button>
+    <button class="nav-btn" onclick="goPage('contact')">연락처</button>
+    <span class="admin-badge" id="adminBadge">🔓 관리자</span>
+    <button class="lock-btn" id="lockBtn" onclick="openPasswordModal()" title="관리자 로그인">🔒</button>
+  </div>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="home">
+  <div class="home-inner">
+    <div class="home-text">
+      <div class="hero-tag">Assistant Professor · Ph.D.</div>
+      <div class="hero-name" id="h-name">남영주</div>
+      <div class="hero-name-en" id="h-name-en">Youngju Nam</div>
+      <div class="hero-pos" id="h-pos">조교수 · <span>군산대학교 소프트웨어학부</span></div>
+      <p style="color:var(--muted);font-size:.95rem;max-width:480px;margin-top:.3rem;" id="h-desc">차세대 차량 네트워크와 딥러닝 기반 최적화를 연구하며, MoNO Lab을 이끌고 있습니다.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="goPage('contact')">연락하기</button>
+        <button class="btn btn-outline" onclick="goPage('research')">연구 분야</button>
+        <button class="btn btn-outline" onclick="goPage('pubs')">논문 보기</button>
+        <button class="adm-btn" id="homeEditBtn" style="display:none;" onclick="editHome()">✏️ 홈 편집</button>
+      </div>
+    </div>
+    <div class="home-card">
+      <div class="hc-label">Research Keywords</div>
+      <div id="h-keywords"></div>
+      <div class="lab-box">
+        <div class="lab-name">📡 MoNO Lab.</div>
+        <div class="lab-sub">Mobile Network Optimization Laboratory</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<div class="page" id="about">
+  <div class="container">
+    <div class="sec-label">About</div>
+    <h2 class="sec-title">소개</h2>
+    <div class="sec-divider"></div>
+    <div class="admin-toolbar" id="aboutToolbar">
+      <span style="color:var(--gold);font-size:.82rem;font-weight:700;">🔓 관리자 모드</span>
+      <button class="adm-btn" onclick="editAboutBio()">✏️ 소개글 편집</button>
+    </div>
+    <div class="about-grid">
+      <div class="about-text" id="aboutBioEl"></div>
+      <div class="info-list" id="aboutInfoEl"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CAREER ══ -->
+<div class="page" id="career">
+  <div class="container">
+    <div class="sec-label">Career &amp; Education</div>
+    <h2 class="sec-title">경력 및 학력</h2>
+    <div class="sec-divider"></div>
+    <div class="admin-toolbar" id="careerToolbar">
+      <span style="color:var(--gold);font-size:.82rem;font-weight:700;">🔓 관리자 모드</span>
+      <button class="adm-btn" onclick="openCareerAdd()">+ 항목 추가</button>
+    </div>
+    <div class="timeline" id="timelineEl"></div>
+  </div>
+</div>
+
+<!-- ══ RESEARCH ══ -->
+<div class="page" id="research">
+  <div class="container">
+    <div class="sec-label">Research Areas</div>
+    <h2 class="sec-title">연구 분야</h2>
+    <div class="sec-divider"></div>
+    <div class="admin-toolbar" id="researchToolbar">
+      <span style="color:var(--gold);font-size:.82rem;font-weight:700;">🔓 관리자 모드</span>
+      <button class="adm-btn" onclick="openResearchAdd()">+ 카드 추가</button>
+    </div>
+    <div class="rg" id="researchEl"></div>
+  </div>
+</div>
+
+<!-- ══ PUBS ══ -->
+<div class="page" id="pubs">
+  <div class="container">
+    <div class="sec-label">Publications</div>
+    <h2 class="sec-title">논문 목록</h2>
+    <div class="sec-divider"></div>
+    <div class="admin-toolbar" id="pubsToolbar">
+      <span style="color:var(--gold);font-size:.82rem;font-weight:700;">🔓 관리자 모드</span>
+      <button class="adm-btn" onclick="openPaperAdd()">+ 논문 추가</button>
+    </div>
+    <div class="pub-stats">
+      <div class="stat-box"><div class="stat-num" id="cnt-total">0</div><div class="stat-lbl">Total</div></div>
+      <div class="stat-box"><div class="stat-num" id="cnt-j">0</div><div class="stat-lbl">Journal</div></div>
+      <div class="stat-box"><div class="stat-num" id="cnt-c">0</div><div class="stat-lbl">Conference</div></div>
+      <div class="stat-box"><div class="stat-num" id="cnt-fa">0</div><div class="stat-lbl">1저자</div></div>
+    </div>
+    <div class="pub-controls">
+      <button class="filt-btn on" onclick="filterPapers(this,'all')">전체</button>
+      <button class="filt-btn" onclick="filterPapers(this,'journal')">저널</button>
+      <button class="filt-btn" onclick="filterPapers(this,'conf')">학회</button>
+      <button class="filt-btn" onclick="filterPapers(this,'first')">1저자만</button>
+    </div>
+    <div id="pub-list"></div>
+  </div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div class="page" id="contact">
+  <div class="container">
+    <div class="sec-label">Contact</div>
+    <h2 class="sec-title">연락처</h2>
+    <div class="sec-divider"></div>
+    <div class="admin-toolbar" id="contactToolbar">
+      <span style="color:var(--gold);font-size:.82rem;font-weight:700;">🔓 관리자 모드</span>
+      <button class="adm-btn" onclick="openContactAdd()">+ 항목 추가</button>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <p style="color:var(--muted);font-size:.93rem;margin-bottom:1.8rem;line-height:1.8;">연구 협력, 학생 지도, 강연 등 다양한 문의를 환영합니다. 아래 연락처로 언제든지 연락 주세요.</p>
+        <div class="contact-items" id="contactEl"></div>
+      </div>
+      <div class="calendly-card">
+        <div style="font-size:3rem;margin-bottom:1rem;">🗓️</div>
+        <h3>상담 신청</h3>
+        <p>연구 상담, 진로 상담, 연구실 지원 등 온라인 상담 신청을 받고 있습니다.</p>
+        <a href="https://calendly.com/imnyj1992" target="_blank" class="btn-cal">📅 상담 일정 예약하기</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer><p>© 2025 남영주 (Youngju Nam) · 군산대학교 소프트웨어학부 · MoNO Lab</p></footer>
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+    <h3 id="modalTitle">편집</h3>
+    <div id="modalBody"></div>
+    <div class="modal-btns" id="modalBtns"></div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════
+//  DEFAULT DATA
+// ════════════════════════════════
+const DEFAULT = {
+  home: { name:'남영주', nameEn:'Youngju Nam', pos:'조교수 · 군산대학교 소프트웨어학부', desc:'차세대 차량 네트워크와 딥러닝 기반 최적화를 연구하며, MoNO Lab을 이끌고 있습니다.', keywords:'Vehicular Network,IoV,CCN,VANET,Proactive Caching,Deep RL,NS3/SUMO,Clustering,Vehicular Cloud,Optimization' },
+  about: { bio: ['차량 네트워크(Vehicular Network) 및 콘텐츠 중심 네트워킹(CCN) 분야를 전문으로 연구하는 군산대학교 소프트웨어학부 조교수입니다.','충북대학교 정보통신공학부에서 학사·석사·박사 학위를 취득하고, 동 대학 연구소에서 박사후연구원을 역임한 뒤, 2024년 10월부터 군산대학교에 재직 중입니다.','딥러닝 및 강화학습 기반 차량 네트워크 최적화, NS3·SUMO 시뮬레이션 환경 구축, 차량 클라우드 및 프리캐싱 전략 등을 주요 연구 주제로 삼고 있습니다.','현재 MoNO Lab (Mobile Network Optimization Lab)을 운영하며 학생들과 함께 차세대 이동 통신·차량 인터넷 분야를 탐구하고 있습니다.'] },
+  career: [
+    {id:1,period:'2024.10 ~ 현재',gold:false,title:'조교수',sub:'군산대학교 소프트웨어학부 · MoNO Lab 운영'},
+    {id:2,period:'2023.02 ~ 2024.09',gold:true,title:'박사후연구원 (Postdoc)',sub:'충북대학교 컴퓨터정보통신연구소 (RICIC)'},
+    {id:3,period:'2019 ~ 2023',gold:false,title:'박사 (Ph.D.) 취득',sub:'충북대학교 정보통신공학부'},
+    {id:4,period:'2017 ~ 2019',gold:false,title:'석사 (M.S.) 취득',sub:'충북대학교 정보통신공학부'},
+    {id:5,period:'~ 2017',gold:false,title:'학사 (B.S.) 취득',sub:'충북대학교 정보통신공학부'}
+  ],
+  research: [
+    {id:1,icon:'🚗',title:'차량 네트워크 & IoV',tags:'Vehicular Network,IoV,VANET,CC-IoV'},
+    {id:2,icon:'📦',title:'콘텐츠 중심 네트워크',tags:'CCN,CCVN,Content-Centric'},
+    {id:3,icon:'🗄️',title:'캐싱 & 프리패치',tags:'Precaching,Proactive Caching,Prefetch'},
+    {id:4,icon:'☁️',title:'차량 클라우드 & 클러스터링',tags:'Vehicular Cloud,Clustering,MEC'},
+    {id:5,icon:'🤖',title:'딥러닝 & 최적화',tags:'Deep RL,Deep Learning,Supervised Learning,Optimization'},
+    {id:6,icon:'🛠️',title:'시뮬레이션 환경',tags:'NS3,SUMO (libsumo),Python'}
+  ],
+  contact: [
+    {id:1,icon:'✉️',label:'이메일',value:'imnyj@kunsan.ac.kr',link:'mailto:imnyj@kunsan.ac.kr'},
+    {id:2,icon:'📱',label:'전화',value:'010-7935-7510',link:''},
+    {id:3,icon:'🏫',label:'소속',value:'군산대학교 소프트웨어학부',link:''},
+    {id:4,icon:'🔬',label:'연구실',value:'MoNO Lab (Mobile Network Optimization Lab)',link:''}
+  ],
+  papers: [
+    {id:1,y:2026,type:'journal',fa:true,ca:false,title:'Precaching vehicle selection based on soft actor-critic in CIoV',authors:'Youngju Nam, Yongje Shin, Hyeonseok Choi, Euisin Lee',venue:'AIMS MATH 11(2): 3314-3348 (2026)'},
+    {id:2,y:2026,type:'journal',fa:false,ca:false,title:'PSO-Based Dynamic RSU Role Assignment Framework for Scalable and Reliable Content Delivery in VANETs',authors:'Yongje Shin, Hyunseok Choi, Youngju Nam, Euisin Lee',venue:'Sensors 26(5): 1555 (2026)'},
+    {id:3,y:2026,type:'journal',fa:false,ca:false,title:'Dynamic Relay Assignment Scheme for Efficient V2V Content Precaching in Content-Centric Internet of Vehicles',authors:'Jongpil Youn, Youngju Nam, Euisin Lee',venue:'Electronics 15(7): 1532 (2026)'},
+    {id:4,y:2025,type:'journal',fa:true,ca:false,title:'Content Storage Management and Precaching Scheme in Content-Centric-Network-Based Internet of Vehicles',authors:'Youngju Nam, Hyunseok Choi, Euisin Lee',venue:'IEEE Internet of Things Journal 12(9): 12927-12947 (2025)'},
+    {id:5,y:2024,type:'journal',fa:false,ca:true,title:'Resource Cluster-Based Resource Search and Allocation Scheme for Vehicular Clouds in Vehicular Ad Hoc Networks',authors:'Hyunseok Choi, Yoonhyeong Lee, Gayeong Kim, Euisin Lee, Youngju Nam',venue:'Sensors 24(7): 2175 (2024)'},
+    {id:6,y:2024,type:'journal',fa:false,ca:false,title:'Adaptive Mobility-Based IoT LoRa Clustering Communication Scheme',authors:'Dick Mugerwa, Youngju Nam, Hyunseok Choi, Yongje Shin, Euisin Lee',venue:'Electronics 13(11): 2052 (2024)'},
+    {id:7,y:2024,type:'journal',fa:false,ca:false,title:'Particle Swarm Optimization-Based Content Delivery Protocol for UAV VAENTs',authors:'Yongje Shin, Hyun-Seok Choi, Youngju Nam, Euisin Lee',venue:'IEEE Access 13: 1594-1608 (2024)'},
+    {id:8,y:2024,type:'journal',fa:false,ca:false,title:'Mobility-Based Multi-Hop Content Precaching Scheme in Content-Centric Vehicular Networks',authors:'Hyunseok Choi, Youngju Nam, Gayeong Kim, Euisin Lee',venue:'Electronics 13(22): 4367 (2024)'},
+    {id:9,y:2023,type:'journal',fa:true,ca:false,title:'Traffic Optimized Content Precaching Scheme Based on Tolerable Delay Time in Content-Centric Vehicular Networks',authors:'Youngju Nam, Hyunseok Choi, Yongje Shin, Euisin Lee',venue:'IEEE Access 11: 53862-53879 (2023)'},
+    {id:10,y:2023,type:'journal',fa:false,ca:false,title:'Implicit Overhearing Node-Based Multi-Hop Communication Scheme in IoT LoRa Networks',authors:'Dick Mugerwa, Youngju Nam, Hyunseok Choi, Yongje Shin, Euisin Lee',venue:'Sensors 23(8): 3874 (2023)'},
+    {id:11,y:2023,type:'journal',fa:true,ca:false,title:'Multiple Precaching Vehicle Selection Scheme Based on Set Ranking in Intermittently Connected Vehicular Networks',authors:'Youngju Nam, Jaejeong Bang, Hyunseok Choi, Yongje Shin, Seungmin Oh, Euisin Lee',venue:'Sensors 23(13): 5800 (2023)'},
+    {id:12,y:2023,type:'conf',fa:true,ca:false,title:'Delay Tolerable Precaching Scheme in Content-Centric Vehicular Networks',authors:'Youngju Nam, Hyunseok Choi, Yongje Shin, Dick Mugerwa, Euisin Lee',venue:'CCNC 2023: 849-854'},
+    {id:13,y:2023,type:'conf',fa:true,ca:false,title:'Set Ranking-Based Precaching Protocol in Vehicular Ad hoc Networks',authors:'Youngju Nam, Hyunseok Choi, Jaejeong Bang, Yongje Shin, Euisin Lee',venue:'CCNC 2023: 963-964'},
+    {id:14,y:2023,type:'conf',fa:true,ca:false,title:'Enhanced Hybrid Energy-Efficient Distributed Clustering Protocol for IoT-Based WSNs with Multiple Sinks',authors:'Youngju Nam, Dick Mugerwa, Hyunseok Choi, Youngmi Kwon, Euisin Lee',venue:'SAS 2023: 1-6'},
+    {id:15,y:2023,type:'conf',fa:false,ca:false,title:'Multi-hop Precaching scheme with Relaying in Intermittently Connected Vehicular Networks',authors:'Gayeong Kim, Youngju Nam, Hyunseok Choi, Euisin Lee',venue:'SmartNets 2023: 1-6'},
+    {id:16,y:2022,type:'journal',fa:false,ca:false,title:'Particle Swarm Optimization Video Streaming Service in Vehicular Ad-Hoc Networks',authors:'Yongje Shin, Hyun-Seok Choi, Youngju Nam, Hyunchong Cho, Euisin Lee',venue:'IEEE Access 10: 102710-102723 (2022)'},
+    {id:17,y:2022,type:'journal',fa:false,ca:false,title:'The partial cloud member replacement for reconstructing vehicular clouds in VANETs: Reactive and proactive schemes',authors:'Hyunseok Choi, Youngju Nam, Yongje Shin, Euisin Lee',venue:'Ad Hoc Networks 136: 102959 (2022)'},
+    {id:18,y:2022,type:'journal',fa:false,ca:false,title:'SF-Partition-Based Clustering and Relaying Scheme for Resolving Near-Far Unfairness in IoT Multihop LoRa Networks',authors:'Dick Mugerwa, Youngju Nam, Hyunseok Choi, Yongje Shin, Euisin Lee',venue:'Sensors 22(23): 9332 (2022)'},
+    {id:19,y:2022,type:'journal',fa:true,ca:false,title:'Cooperative Content Precaching Scheme Based on the Mobility Information of Vehicles in Intermittently Connected Vehicular Networks',authors:'Youngju Nam, Jaejeong Bang, Hyunseok Choi, Yongje Shin, Euisin Lee',venue:'Electronics 11(22): 3663 (2022)'},
+    {id:20,y:2022,type:'journal',fa:true,ca:false,title:'Expected Area-Based Real-Time Routing Protocol for Supporting Mobile Sinks in Wireless Sensor Networks',authors:'Youngju Nam, Hyunseok Choi, Yongje Shin, Soochang Park, Euisin Lee',venue:'Electronics 11(20): 3350 (2022)'},
+    {id:21,y:2022,type:'journal',fa:true,ca:false,title:'RSU-Aided Optimal Member Replacement Scheme with Improved Mobility Prediction for Vehicular Clouds in VANETs',authors:'Youngju Nam, Hyunseok Choi, Yongje Shin, Dick Mugerwa, Euisin Lee',venue:'Electronics 11(17): 2787 (2022)'},
+    {id:22,y:2022,type:'journal',fa:false,ca:false,title:'Design and Evaluation of Schemes for Replacing Multiple Member Vehicles in Vehicular Clouds',authors:'Hyunseok Choi, Youngju Nam, Yongje Shin, Kwansoo Jung, Euisin Lee',venue:'Electronics 11(13): 2085 (2022)'},
+    {id:23,y:2022,type:'conf',fa:false,ca:false,title:'Implicit Multi-hop Communication Scheme based on Overhearing in IoT LoRa Networks',authors:'Dick Mugerwa, Youngju Nam, Hyunchong Cho, Hyunseok Choi, Yongje Shin, Euisin Lee',venue:'ICUFN 2022: 190-195'},
+    {id:24,y:2021,type:'journal',fa:true,ca:false,title:'Adaptive Content Precaching Scheme Based on the Predictive Speed of Vehicles in Content-Centric Vehicular Networks',authors:'Youngju Nam, Hyun-Seok Choi, Yongje Shin, Euisin Lee, Eun-Kyu Lee',venue:'Sensors 21(16): 5376 (2021)'},
+    {id:25,y:2021,type:'journal',fa:false,ca:false,title:'Video Packet Distribution Scheme for Multimedia Streaming Services in VANETs',authors:'Yongje Shin, Hyunseok Choi, Youngju Nam, Euisin Lee',venue:'Sensors 21(21): 7368 (2021)'},
+    {id:26,y:2020,type:'journal',fa:false,ca:false,title:'Data delivery protocol using the trajectory information on a road map in VANETs',authors:'Yongje Shin, Hyun-Seok Choi, Youngju Nam, Euisin Lee',venue:'Ad Hoc Networks 107: 102260 (2020)'},
+    {id:27,y:2020,type:'conf',fa:false,ca:false,title:'Cooperative Content Downloading Protocol Based on the Mobility Information of Vehicles in Intermittently Connected Vehicular Networks',authors:'Jaejeong Bang, Youngju Nam, Hyun-Seok Choi, Euisin Lee, Seungmin Oh',venue:'ICOIN 2020: 273-277'},
+    {id:28,y:2019,type:'conf',fa:false,ca:false,title:'RSU-driven Cloud Construction and Management Mechanism in VANETs',authors:'Yoonhyeong Lee, Hyun-Seok Choi, Youngju Nam, Sungjin Park, Euisin Lee',venue:'CloudNet 2019: 1-4'},
+    {id:29,y:2019,type:'conf',fa:false,ca:false,title:'Efficient Multipath Routing Protocol Against Path Failures in Wireless Sensor Networks',authors:'Jinhyuk Yim, Jaejeong Bang, Youngju Nam, Yongje Shin, Euisin Lee',venue:'WMNC 2019: 136-140'},
+    {id:30,y:2019,type:'conf',fa:false,ca:false,title:'Mobility-aware Distributed Proactive Caching in Content-Centric Vehicular Networks',authors:'Sungjin Park, Seungmin Oh, Youngju Nam, Jaejeong Bang, Euisin Lee',venue:'WMNC 2019: 175-180'},
+    {id:31,y:2018,type:'conf',fa:false,ca:false,title:'Efficient Data Delivery Protocol Using Vehicle Mobility Information in VANETs',authors:'Yongje Shin, Hyun-Seok Choi, Youngjoo Nam, Euisin Lee',venue:'ICUFN 2018: 644-649'},
+    {id:32,y:2018,type:'conf',fa:false,ca:false,title:'Multi-hop Vehicular Cloud Construction with Connection Time based Resource Allocation in VANETs',authors:'Hyun-Seok Choi, Youngju Nam, Jaejeong Bang, Euisin Lee',venue:'APCC 2018: 100-105'}
+  ]
+};
+
+// ════════════════════════════════
+//  STATE
+// ════════════════════════════════
+let admin = false;
+let curFilter = 'all';
+let D = JSON.parse(JSON.stringify(DEFAULT)); // working copy
+let nextId = 100;
+
+// ════════════════════════════════
+//  STORAGE
+// ════════════════════════════════
+async function loadAll() {
+  const keys = ['home','about','career','research','contact','papers'];
+  for (const k of keys) {
+    try {
+      const r = await window.storage.get('pf_' + k);
+      if (r) D[k] = JSON.parse(r.value);
+    } catch(e) {}
+  }
+  renderAll();
+}
+async function save(key) {
+  try { await window.storage.set('pf_' + key, JSON.stringify(D[key])); } catch(e) {}
+}
+
+// ════════════════════════════════
+//  NAV
+// ════════════════════════════════
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map = {home:'Home',about:'소개',career:'경력',research:'연구',pubs:'논문',contact:'연락처'};
+  [...document.querySelectorAll('.nav-btn')].find(b => b.textContent === map[id])?.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ════════════════════════════════
+//  RENDER ALL
+// ════════════════════════════════
+function renderAll() {
+  renderHome(); renderAbout(); renderCareer(); renderResearch(); renderPapers(); renderContact();
+}
+
+function renderHome() {
+  const h = D.home;
+  document.getElementById('h-name').textContent = h.name;
+  document.getElementById('h-name-en').textContent = h.nameEn;
+  document.getElementById('h-pos').innerHTML = h.pos;
+  document.getElementById('h-desc').textContent = h.desc;
+  document.getElementById('h-keywords').innerHTML = h.keywords.split(',').map(k => `<span class="rtag">${k.trim()}</span>`).join('');
+}
+
+function renderAbout() {
+  const bio = D.about.bio;
+  document.getElementById('aboutBioEl').innerHTML = bio.map((p,i) => `<p class="${i===0?'hl':''}">${p}</p>`).join('');
+  document.getElementById('aboutInfoEl').innerHTML = D.contact.map((c,i) => `
+    <div class="icard">
+      <div class="icard-icon">${c.icon}</div>
+      <div>
+        <div class="icard-label">${c.label}</div>
+        <div class="icard-val">${c.link?`<a href="${c.link}">${c.value}</a>`:c.value}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderCareer() {
+  document.getElementById('timelineEl').innerHTML = D.career.map(item => `
+    <div class="tl-item" data-id="${item.id}">
+      <div class="tl-dot ${item.gold?'g':''}"></div>
+      <div class="tl-period ${item.gold?'gp':''}">${item.period}</div>
+      <div class="tl-title">
+        ${item.title}
+        <span class="tl-item-actions adm-edit ${admin?'show':''}">
+          <button class="adm-icon" onclick="openCareerEdit(${item.id})" title="편집">✏️</button>
+          <button class="adm-icon" onclick="deleteCareer(${item.id})" title="삭제">🗑️</button>
+        </span>
+      </div>
+      <div class="tl-sub">${item.sub}</div>
+    </div>`).join('');
+}
+
+function renderResearch() {
+  document.getElementById('researchEl').innerHTML = D.research.map(c => `
+    <div class="rcard">
+      ${admin ? `<div class="rcard-actions adm-edit show">
+        <button class="adm-icon" onclick="openResearchEdit(${c.id})" title="편집">✏️</button>
+        <button class="adm-icon" onclick="deleteResearch(${c.id})" title="삭제">🗑️</button>
+      </div>` : ''}
+      <div class="rc-ico">${c.icon}</div>
+      <div class="rc-title">${c.title}</div>
+      <div class="rc-tags">${c.tags.split(',').map(t=>`<span class="rc-tag">${t.trim()}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+function hlAuth(s) { return s.replace(/(Youngju Nam|Youngjoo Nam)/g,'<span class="me">$1</span>'); }
+
+function renderPapers() {
+  let list = D.papers;
+  if (curFilter==='journal') list = list.filter(p=>p.type==='journal');
+  else if (curFilter==='conf') list = list.filter(p=>p.type==='conf');
+  else if (curFilter==='first') list = list.filter(p=>p.fa);
+
+  document.getElementById('cnt-total').textContent = D.papers.length;
+  document.getElementById('cnt-j').textContent = D.papers.filter(p=>p.type==='journal').length;
+  document.getElementById('cnt-c').textContent = D.papers.filter(p=>p.type==='conf').length;
+  document.getElementById('cnt-fa').textContent = D.papers.filter(p=>p.fa||p.ca).length;
+
+  const years = [...new Set(list.map(p=>p.y))].sort((a,b)=>b-a);
+  document.getElementById('pub-list').innerHTML = years.map(y => {
+    const yp = list.filter(p=>p.y===y);
+    return `<div class="year-group"><div class="year-heading">${y}</div>${
+      yp.map(p => {
+        const cls = (p.fa&&p.ca)?'fa-ca':p.fa?'first-author':p.ca?'corr-author':'';
+        return `<div class="paper-item ${cls}">
+          <div class="paper-title">${p.title}</div>
+          <div class="paper-authors">${hlAuth(p.authors)}</div>
+          <div class="paper-venue">${p.venue}<span class="badge ${p.type==='journal'?'badge-j':'badge-c'}">${p.type==='journal'?'Journal':'Conference'}</span></div>
+          ${admin?`<div class="paper-actions show">
+            <button class="adm-icon" onclick="openPaperEdit(${p.id})" title="편집">✏️</button>
+            <button class="adm-icon" onclick="deletePaper(${p.id})" title="삭제">🗑️</button>
+          </div>`:''}
+        </div>`;
+      }).join('')
+    }</div>`;
+  }).join('');
+}
+
+function renderContact() {
+  document.getElementById('contactEl').innerHTML = D.contact.map(c => `
+    <div class="ci">
+      <div class="ci-ico">${c.icon}</div>
+      <div>
+        <div class="ci-lbl">${c.label}</div>
+        <div class="ci-val">${c.link?`<a href="${c.link}">${c.value}</a>`:c.value}</div>
+      </div>
+      ${admin?`<div class="ci-actions adm-edit show">
+        <button class="adm-icon" onclick="openContactEdit(${c.id})" title="편집">✏️</button>
+        <button class="adm-icon" onclick="deleteContact(${c.id})" title="삭제">🗑️</button>
+      </div>`:''}
+    </div>`).join('');
+}
+
+// ════════════════════════════════
+//  FILTER
+// ════════════════════════════════
+function filterPapers(btn, f) {
+  document.querySelectorAll('.filt-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  curFilter = f;
+  renderPapers();
+}
+
+// ════════════════════════════════
+//  ADMIN AUTH
+// ════════════════════════════════
+function openPasswordModal() {
+  if (admin) { logoutAdmin(); return; }
+  showModal('🔐 관리자 로그인',
+    `<div class="form-row"><label>비밀번호</label>
+     <input class="pw-input" type="password" id="pwInput" maxlength="10" placeholder="••••" onkeydown="if(event.key==='Enter')checkPw()">
+     <div class="pw-error" id="pwErr">비밀번호가 올바르지 않습니다.</div></div>`,
+    [{label:'확인',cls:'btn-save',fn:'checkPw()'},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]
+  );
+  setTimeout(()=>document.getElementById('pwInput')?.focus(),100);
+}
+function checkPw() {
+  const v = document.getElementById('pwInput')?.value;
+  const storedHash = 'fc09a3b3fbea791b2aec4b258c813a8e2b9cf271f5ed363f4e4c4f37925f3716'; // 빌드 시 자동 치환됨
+  
+  // SHA256 해시 함수
+  async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  
+  sha256(v).then(inputHash => {
+    if (inputHash === storedHash) {
+      admin = true;
+      closeModal();
+      applyAdminUI();
+    } else {
+      const e = document.getElementById('pwErr');
+      if(e) {
+        e.textContent = '비밀번호가 올바르지 않습니다.';
+        e.style.display = 'block';
+        setTimeout(() => e.style.display = 'none', 2000);
+      }
+    }
+  });
+}
+function logoutAdmin() {
+  admin=false; applyAdminUI();
+}
+function applyAdminUI() {
+  document.getElementById('adminBadge').style.display = admin?'inline-block':'none';
+  document.getElementById('lockBtn').textContent = admin?'🔓':'🔒';
+  document.getElementById('lockBtn').title = admin?'관리자 로그아웃':'관리자 로그인';
+  document.getElementById('homeEditBtn').style.display = admin?'inline-block':'none';
+  ['aboutToolbar','careerToolbar','researchToolbar','pubsToolbar','contactToolbar'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.toggle('show',admin);
+  });
+  renderAll();
+}
+
+// ════════════════════════════════
+//  MODAL SYSTEM
+// ════════════════════════════════
+function showModal(title, body, btns) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = body;
+  document.getElementById('modalBtns').innerHTML = btns.map(b=>
+    `<button class="btn ${b.cls}" onclick="${b.fn}">${b.label}</button>`).join('');
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+
+function v(id){return document.getElementById(id)?.value||'';}
+function chk(id){return document.getElementById(id)?.checked||false;}
+
+// ════════════════════════════════
+//  HOME EDIT
+// ════════════════════════════════
+function editHome() {
+  const h=D.home;
+  showModal('홈 편집',
+    `<div class="form-row"><label>이름 (한글)</label><input id="e-name" value="${h.name}"></div>
+     <div class="form-row"><label>이름 (영문)</label><input id="e-nameen" value="${h.nameEn}"></div>
+     <div class="form-row"><label>직함/소속</label><input id="e-pos" value="${h.pos}"></div>
+     <div class="form-row"><label>한 줄 소개</label><textarea id="e-desc">${h.desc}</textarea></div>
+     <div class="form-row"><label>키워드 (쉼표 구분)</label><input id="e-kw" value="${h.keywords}"></div>`,
+    [{label:'저장',cls:'btn-save',fn:'saveHome()'},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]
+  );
+}
+function saveHome() {
+  D.home={name:v('e-name'),nameEn:v('e-nameen'),pos:v('e-pos'),desc:v('e-desc'),keywords:v('e-kw')};
+  save('home'); renderHome(); closeModal();
+}
+
+// ════════════════════════════════
+//  ABOUT EDIT
+// ════════════════════════════════
+function editAboutBio() {
+  showModal('소개글 편집',
+    `<div class="form-row"><label>단락 1</label><textarea id="b0">${D.about.bio[0]||''}</textarea></div>
+     <div class="form-row"><label>단락 2</label><textarea id="b1">${D.about.bio[1]||''}</textarea></div>
+     <div class="form-row"><label>단락 3</label><textarea id="b2">${D.about.bio[2]||''}</textarea></div>
+     <div class="form-row"><label>단락 4</label><textarea id="b3">${D.about.bio[3]||''}</textarea></div>`,
+    [{label:'저장',cls:'btn-save',fn:'saveAboutBio()'},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]
+  );
+}
+function saveAboutBio() {
+  D.about.bio=[v('b0'),v('b1'),v('b2'),v('b3')].filter(s=>s.trim());
+  save('about'); renderAbout(); closeModal();
+}
+
+// ════════════════════════════════
+//  CAREER
+// ════════════════════════════════
+function careerForm(item={}) {
+  return `<div class="form-row"><label>기간</label><input id="c-period" value="${item.period||''}"></div>
+          <div class="form-row"><label>직함/학위</label><input id="c-title" value="${item.title||''}"></div>
+          <div class="form-row"><label>소속/설명</label><input id="c-sub" value="${item.sub||''}"></div>
+          <div class="form-row"><label>스타일</label>
+            <div class="checkbox-row"><label><input type="checkbox" id="c-gold" ${item.gold?'checked':''}> 골드 강조 (포닥·수상 등)</label></div>
+          </div>`;
+}
+function openCareerAdd() {
+  showModal('경력 항목 추가', careerForm(),
+    [{label:'추가',cls:'btn-save',fn:'saveCareerAdd()'},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]);
+}
+function saveCareerAdd() {
+  D.career.unshift({id:nextId++,period:v('c-period'),gold:chk('c-gold'),title:v('c-title'),sub:v('c-sub')});
+  save('career'); renderCareer(); closeModal();
+}
+function openCareerEdit(id) {
+  const item=D.career.find(c=>c.id===id);
+  showModal('경력 항목 편집', careerForm(item),
+    [{label:'저장',cls:'btn-save',fn:`saveCareerEdit(${id})`},{label:'삭제',cls:'btn-del',fn:`deleteCareer(${id})`},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]);
+}
+function saveCareerEdit(id) {
+  const i=D.career.findIndex(c=>c.id===id);
+  D.career[i]={id,period:v('c-period'),gold:chk('c-gold'),title:v('c-title'),sub:v('c-sub')};
+  save('career'); renderCareer(); closeModal();
+}
+function deleteCareer(id) {
+  if(!confirm('삭제하시겠습니까?')) return;
+  D.career=D.career.filter(c=>c.id!==id); save('career'); renderCareer(); closeModal();
+}
+
+// ════════════════════════════════
+//  RESEARCH
+// ════════════════════════════════
+function researchForm(item={}) {
+  return `<div class="form-row"><label>아이콘 (이모지)</label><input id="r-icon" value="${item.icon||'🔬'}"></div>
+          <div class="form-row"><label>제목</label><input id="r-title" value="${item.title||''}"></div>
+          <div class="form-row"><label>태그 (쉼표 구분)</label><input id="r-tags" value="${item.tags||''}"></div>`;
+}
+function openResearchAdd() {
+  showModal('연구 카드 추가', researchForm(),
+    [{label:'추가',cls:'btn-save',fn:'saveResearchAdd()'},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]);
+}
+function saveResearchAdd() {
+  D.research.push({id:nextId++,icon:v('r-icon'),title:v('r-title'),tags:v('r-tags')});
+  save('research'); renderResearch(); closeModal();
+}
+function openResearchEdit(id) {
+  const item=D.research.find(r=>r.id===id);
+  showModal('연구 카드 편집', researchForm(item),
+    [{label:'저장',cls:'btn-save',fn:`saveResearchEdit(${id})`},{label:'삭제',cls:'btn-del',fn:`deleteResearch(${id})`},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]);
+}
+function saveResearchEdit(id) {
+  const i=D.research.findIndex(r=>r.id===id);
+  D.research[i]={id,icon:v('r-icon'),title:v('r-title'),tags:v('r-tags')};
+  save('research'); renderResearch(); closeModal();
+}
+function deleteResearch(id) {
+  if(!confirm('삭제하시겠습니까?')) return;
+  D.research=D.research.filter(r=>r.id!==id); save('research'); renderResearch(); closeModal();
+}
+
+// ════════════════════════════════
+//  PAPERS
+// ════════════════════════════════
+function paperForm(p={}) {
+  return `<div class="form-row"><label>제목</label><textarea id="p-title">${p.title||''}</textarea></div>
+          <div class="form-row"><label>저자</label><textarea id="p-auth">${p.authors||''}</textarea></div>
+          <div class="form-row"><label>게재지/학회</label><input id="p-venue" value="${p.venue||''}"></div>
+          <div class="form-row"><label>연도</label><input id="p-year" type="number" value="${p.y||new Date().getFullYear()}"></div>
+          <div class="form-row"><label>구분</label>
+            <select id="p-type"><option value="journal" ${p.type==='journal'?'selected':''}>Journal</option><option value="conf" ${p.type==='conf'?'selected':''}>Conference</option></select>
+          </div>
+          <div class="form-row"><label>역할</label>
+            <div class="checkbox-row">
+              <label><input type="checkbox" id="p-fa" ${p.fa?'checked':''}> 1저자</label>
+              <label><input type="checkbox" id="p-ca" ${p.ca?'checked':''}> 교신저자</label>
+            </div>
+          </div>`;
+}
+function openPaperAdd() {
+  showModal('논문 추가', paperForm(),
+    [{label:'추가',cls:'btn-save',fn:'savePaperAdd()'},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]);
+}
+function savePaperAdd() {
+  D.papers.push({id:nextId++,y:parseInt(v('p-year')),type:v('p-type'),fa:chk('p-fa'),ca:chk('p-ca'),title:v('p-title'),authors:v('p-auth'),venue:v('p-venue')});
+  D.papers.sort((a,b)=>b.y-a.y);
+  save('papers'); renderPapers(); closeModal();
+}
+function openPaperEdit(id) {
+  const p=D.papers.find(x=>x.id===id);
+  showModal('논문 편집', paperForm(p),
+    [{label:'저장',cls:'btn-save',fn:`savePaperEdit(${id})`},{label:'삭제',cls:'btn-del',fn:`deletePaper(${id})`},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]);
+}
+function savePaperEdit(id) {
+  const i=D.papers.findIndex(x=>x.id===id);
+  D.papers[i]={id,y:parseInt(v('p-year')),type:v('p-type'),fa:chk('p-fa'),ca:chk('p-ca'),title:v('p-title'),authors:v('p-auth'),venue:v('p-venue')};
+  D.papers.sort((a,b)=>b.y-a.y);
+  save('papers'); renderPapers(); closeModal();
+}
+function deletePaper(id) {
+  if(!confirm('이 논문을 삭제하시겠습니까?')) return;
+  D.papers=D.papers.filter(p=>p.id!==id); save('papers'); renderPapers(); closeModal();
+}
+
+// ════════════════════════════════
+//  CONTACT
+// ════════════════════════════════
+function contactForm(c={}) {
+  return `<div class="form-row"><label>아이콘 (이모지)</label><input id="ci-icon" value="${c.icon||'📌'}"></div>
+          <div class="form-row"><label>라벨</label><input id="ci-lbl" value="${c.label||''}"></div>
+          <div class="form-row"><label>값</label><input id="ci-val" value="${c.value||''}"></div>
+          <div class="form-row"><label>링크 (선택)</label><input id="ci-link" value="${c.link||''}" placeholder="mailto: 또는 https://..."></div>`;
+}
+function openContactAdd() {
+  showModal('연락처 항목 추가', contactForm(),
+    [{label:'추가',cls:'btn-save',fn:'saveContactAdd()'},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]);
+}
+function saveContactAdd() {
+  D.contact.push({id:nextId++,icon:v('ci-icon'),label:v('ci-lbl'),value:v('ci-val'),link:v('ci-link')});
+  save('contact'); renderContact(); renderAbout(); closeModal();
+}
+function openContactEdit(id) {
+  const c=D.contact.find(x=>x.id===id);
+  showModal('연락처 편집', contactForm(c),
+    [{label:'저장',cls:'btn-save',fn:`saveContactEdit(${id})`},{label:'삭제',cls:'btn-del',fn:`deleteContact(${id})`},{label:'취소',cls:'btn-cancel',fn:'closeModal()'}]);
+}
+function saveContactEdit(id) {
+  const i=D.contact.findIndex(x=>x.id===id);
+  D.contact[i]={id,icon:v('ci-icon'),label:v('ci-lbl'),value:v('ci-val'),link:v('ci-link')};
+  save('contact'); renderContact(); renderAbout(); closeModal();
+}
+function deleteContact(id) {
+  if(!confirm('삭제하시겠습니까?')) return;
+  D.contact=D.contact.filter(c=>c.id!==id); save('contact'); renderContact(); renderAbout(); closeModal();
+}
+
+// ════════════════════════════════
+//  INIT
+// ════════════════════════════════
+loadAll();
+</script>
+</body>
+</html>
