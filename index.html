@@ -558,10 +558,46 @@ function openPasswordModal() {
   );
   setTimeout(()=>document.getElementById('pwInput')?.focus(),100);
 }
-function checkPw() {
+async function checkPw() {
   const v = document.getElementById('pwInput')?.value;
-  if (v === '0428') { admin=true; closeModal(); applyAdminUI(); }
-  else { const e=document.getElementById('pwErr'); if(e){e.style.display='block'; setTimeout(()=>e.style.display='none',2000);} }
+  if (!v) {
+    const e = document.getElementById('pwErr');
+    if(e) {
+      e.textContent = '비밀번호를 입력해주세요.';
+      e.style.display = 'block';
+      setTimeout(() => e.style.display = 'none', 2000);
+    }
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/verify-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: v })
+    });
+
+    if (response.ok) {
+      admin = true;
+      closeModal();
+      applyAdminUI();
+    } else {
+      const e = document.getElementById('pwErr');
+      if(e) {
+        e.textContent = '비밀번호가 올바르지 않습니다.';
+        e.style.display = 'block';
+        setTimeout(() => e.style.display = 'none', 2000);
+      }
+    }
+  } catch (error) {
+    console.error('Password verification failed:', error);
+    const e = document.getElementById('pwErr');
+    if(e) {
+      e.textContent = '인증 중 오류가 발생했습니다.';
+      e.style.display = 'block';
+      setTimeout(() => e.style.display = 'none', 3000);
+    }
+  }
 }
 function logoutAdmin() {
   admin=false; applyAdminUI();
